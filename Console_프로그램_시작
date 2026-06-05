@@ -1,0 +1,45 @@
+1. Console 프로그램 시작
+
+1) app.xaml -> OnStartUp() -> Core 실행 -> UI 실행
+
+2) Core 실행 
+    InitAppContext ( ) -> RunAppContext ( )
+
+  AppContext ->  객체를 만들어 두는 곳
+public class AppContext
+{
+  public PlcManager PlcManager {get;}
+  public AlarmManager AlarmManager {get;}
+  public ConfigManager ConfigManager {get;}
+}
+
+정리하면 
+프로그램 실행 -> 설정파일 읽음 -> PLC 연결 준비 -> 장비 객체 생성 -> 통신 객체 생성
+
+3) UI 실행
+RunInReleaseMode( ) 실행하면 MefBootstrapper 실행됨
+
+Bootstrapper란,
+프로그램 조립 공장
+화면이 나오기 위해서는 view, viewModel, Service, Manager 가 조립되어야한다. 그걸 해주는 것이 Bootstrapper.
+
+Bootstrapper.Run( ) 이 함수가 실행되면 아래 함수들이 순서대로 호출된다.
+  1. ConfigureAggregateCatalog( ) - 사용할 DLL 찾기 (프로젝트 안에 뭐가 있는지 조사)
+  2. CreateShell( ) - shell은 프로그램의 메인 창. 즉, 화면 생성 단계이다.
+  3. InitializeShell( ) - 생성된 shell을 초기화한다.
+  빈 창 생성 -> 컨트롤 추가 -> 메뉴 생성 -> 화면 표시
+
+
+총 정리 (실제 실행 흐름)
+  1. ECSFx.Console.exe
+  2. App.xaml.cs
+  3. OnStartup( )
+  4. InitAppContext ( )
+  5. AppContext 생성
+  6. RunAppContext( )
+  7. Bootstrapper.Run( )
+  8. ConfigureAggregateCatalog( )
+  9. CreateShell( )
+  10. InitializeShell( )
+  11. MainWindow 표시
+  
